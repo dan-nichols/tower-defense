@@ -1,18 +1,20 @@
 App = function() {
-  var handle1;
-  var handle2;
-  var rocks;
-
-  var line1;
   var linesX;
   var linesY;
 
-  var availableSpace;
   var towers;
   var towerButtons;
 
   this.preload = function preload() {
       game.load.spritesheet('balls', 'assets/sprites/balls.png', 17, 17);
+  };
+
+  this.create = function create() {
+    this.initTowers();
+    game.stage.backgroundColor = '#124184';
+    createGrid();
+
+    game.input.onDown.add(this.addTowerAttempt, this);
   };
 
   this.initTowers = function initTowers() {
@@ -22,27 +24,7 @@ App = function() {
     towerButtons.push(new BlueTowerButton(game, 4, GRID_Y - 1));
   }
 
-  this.create = function create() {
-    // availableSpace = new Array(GRID_X);
-    // for (x=0; x<GRID_X; x++) {
-    //   availableSpace[x] = new Array(GRID_Y).fill(0);
-    // }
-    //
-    // //test
-    // availableSpace[2][1] = null;
-    // availableSpace[9][3] = 1;
-    rocks = new Array();
-    this.initTowers();
-
-    game.stage.backgroundColor = '#124184';
-
-    createGrid();
-
-    game.input.onDown.add(this.doSomething, this);
-  };
-
-  this.doSomething = function doSomething(pointer) {
-
+  this.addTowerAttempt = function addTowerAttempt(pointer) {
     if (selectedTower == null) {
       return;
     }
@@ -59,6 +41,5 @@ App = function() {
 
   this.render = function render() {
     drawGrid();
-    game.debug.text("Drag the handles", 32, 550);
   };
 }
